@@ -1,0 +1,19 @@
+identifier: esp32s3_devkitc_1
+name: ESP32-S3 DevKitC_1
+type: mcu
+arch: xtensa
+toolchain:
+  - zephyr
+supported:
+  - gpio
+  - uart
+  - i2c
+  - spi
+  - counter
+  - watchdog
+  - entropy
+  - pwm
+testing:
+  ignore_tags:
+    - net
+    - bluetooth

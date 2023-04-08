@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
-zephyr_get(ESPRESSIF_TOOLCHAIN_PATH)
+set_ifndef(ESPRESSIF_TOOLCHAIN_PATH "$ENV{ESPRESSIF_TOOLCHAIN_PATH}")
+set(       ESPRESSIF_TOOLCHAIN_PATH ${ESPRESSIF_TOOLCHAIN_PATH} CACHE PATH "")
 assert(    ESPRESSIF_TOOLCHAIN_PATH "ESPRESSIF_TOOLCHAIN_PATH is not set")
 
 set(TOOLCHAIN_HOME ${ESPRESSIF_TOOLCHAIN_PATH})
@@ -12,8 +13,7 @@ set(BINTOOLS gnu)
 # find some toolchain
 file(GLOB toolchain_paths
   LIST_DIRECTORIES true
-  ${TOOLCHAIN_HOME}/*-esp32*/*-elf
-  ${TOOLCHAIN_HOME}/*-esp*/*-elf
+  ${TOOLCHAIN_HOME}/*-esp*
   )
 
 # Old toolchain installation path has been deprecated in 2.7.

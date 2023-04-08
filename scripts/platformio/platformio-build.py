@@ -78,6 +78,7 @@ PLATFORMS_WITH_EXTERNAL_HAL = {
     "nordicnrf52": ["st", "nordic"],
     "nxplpc": ["st", "nxp"],
     "nxpimxrt": ["st", "nxp"],
+    "espressif32": ["espressif"],
 }
 
 
@@ -103,7 +104,7 @@ def get_board_architecture(board_config):
         return "arm"
     elif board_config.get("build.march", "").startswith(("rv64", "rv32")):
         return "riscv"
-    elif board_config.get("build.mcu") == "esp32":
+    elif board_config.get("build.mcu").startswith("esp32"):
         return "xtensa32"
 
     sys.stderr.write(
@@ -128,7 +129,12 @@ def populate_zephyr_env_vars(zephyr_env, board_config):
         )
     elif arch == "xtensa32":
         toolchain_variant = "espressif"
-        zephyr_env["ESPRESSIF_TOOLCHAIN_PATH"] = platform.get_package_dir(
+        if(board_config.get("build.mcu").startswith("esp32")):
+            zephyr_env["ESPRESSIF_TOOLCHAIN_PATH"] = platform.get_package_dir(
+                "toolchain-xtensa-%s" % board_config.get("build.mcu")
+            )
+        else:
+            zephyr_env["ESPRESSIF_TOOLCHAIN_PATH"] = platform.get_package_dir(
             "toolchain-xtensa32"
         )
 
